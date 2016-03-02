@@ -19,7 +19,7 @@ import java.util.List;
  */
 public class Main {
     public static void main(String[] args) throws IOException, InvalidFormatException {
-        String filename = "kiskorpad.xlsx";
+        String filename = "bardudvarnok.xlsx";
         InputStream is = Main.class.getClassLoader().getResourceAsStream(filename);
         Workbook wb = WorkbookFactory.create(is);
         is.close();
@@ -55,7 +55,8 @@ public class Main {
                 if (erdTipCell.getStringCellValue().equals("tulajdonos")) {
 
                     erdekeltseg.setTipus(erdTipCell.getStringCellValue());
-                    erdekeltseg.setErdekelt(row.getCell(9, Row.RETURN_BLANK_AS_NULL).getStringCellValue());
+                    String erd = row.getCell(9, Row.RETURN_BLANK_AS_NULL).getStringCellValue().split("/ bej.")[0];
+                    erdekeltseg.setErdekelt(erd);
                     erdekeltseg.setHanyadStr(row.getCell(10, Row.RETURN_BLANK_AS_NULL).getStringCellValue());
                     String hanyadStr = row.getCell(10, Row.RETURN_BLANK_AS_NULL).getStringCellValue();
                     String[] arany = hanyadStr.split("/");
@@ -84,7 +85,7 @@ public class Main {
         ///// Writing
         Sheet sheet = wb.createSheet("Számított");
 
-        Row header=sheet.createRow(0);
+        Row header = sheet.createRow(0);
         header.createCell(0).setCellValue("Helyrajzi szám");
         header.createCell(1).setCellValue("Művelési Ág");
         header.createCell(2).setCellValue("Kivett Megnevezés");
